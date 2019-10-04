@@ -1,7 +1,7 @@
 /*	Author: apho001
- *  Partner(s) Name: Van Truong
- *	Lab Section:
- *	Assignment: Lab #  Exercise #
+ *      Partner(s) Name: Van Truong
+ *	Lab Section: 23
+ *	Assignment: Lab #2  Exercise #1
  *	Exercise Description: [optional - include for your own benefit]
  *
  *	I acknowledge all content contained herein, excluding template or example
