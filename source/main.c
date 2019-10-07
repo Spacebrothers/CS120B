@@ -1,7 +1,7 @@
 /*	Author: apho001
  *  Partner(s) Name: Van Truong
- *	Lab Section:
- *	Assignment: Lab #  Exercise #
+ *	Lab Section: 023
+ *	Assignment: Lab #3  Exercise #1
  *	Exercise Description: [optional - include for your own benefit]
  *
  *	I acknowledge all content contained herein, excluding template or example
@@ -13,23 +13,33 @@
 #endif
 
 int main(void) {
-    /* Insert DDR and PORT initializations */
-	DDRA = 0x00; 
-	PORTA = 0xFF;
-	DDRB = 0xFF;
-	PORTB = 0x00;
-	unsigned char tmpfirst = 0x00;
-	unsigned char tmpsecond = 0x00;
-    /* Insert your solution below */
-    while (1) {
-	tmpfirst = PINA & 0x01;
-	tmpsecond = PINA & 0x02;
-	if((tmpfirst == 0x01) && (tmpsecond == 0x00)) {
-		PORTB = 0x01;
+	DDRA = 0x00; PORTA = 0xFF;
+	DDRB = 0x00; PORTB = 0xFF;
+	DDRC = 0xFF; PORTC = 0x00;
+
+	unsigned char inputB = 0x00;
+	unsigned char inputA = 0x00;
+	unsigned char tempA = 0x00;
+	unsigned char tempB = 0x00;
+
+	while(1) {
+		unsigned char countOnes = 0x00;
+		unsigned char iter = 0x00;
+		inputB = PINB;
+		inputA = PINA;
+		for(iter; iter < 0x08; iter++) {	//one loop A & B
+			tempA = (inputA >> iter) & 0x01;
+			tempB = (inputB >> iter) & 0x01;
+			if(tempA == 0x01) {
+				countOnes = countOnes + 1;
+			}
+			if(tempB == 0x01) {
+				countOnes = countOnes + 1;
+			}
+		}
+		PORTC = countOnes;
+		//iter = 0x00;	//reset iteration
 	}
-	else {
-		PORTB = 0x00;
-	}
-    }
-    return 1;
+	
+    	return 1;
 }
