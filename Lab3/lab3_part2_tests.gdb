@@ -19,13 +19,11 @@ int main(void) {
 
 	//unsigned char inputB = 0x00;
 	unsigned char inputA = 0x00;
-	unsigned char tempA = 0x00;
+	//unsigned char tempA = 0x00;
 	unsigned char outputB = 0x00;
 
 	while(1) {
 		inputA = PINA & 0x0F;
-		tempA = PINA & 0xF0;
-		//fuel level
 		if(inputA == 0x01 || inputA == 0x02) {
 			outputB = 0x20;
 		}
@@ -47,15 +45,10 @@ int main(void) {
 		else {
 			outputB = 0x00;
 		}
-		//low fuel
-		if(inputA < 0x05) {
-			outputB = outputB + 0x40; // 0100 0000
-		}
-		//seatbelt
-		if((tempA == 0x10) && (tempA == 0x20) && !(tempA == 0x40)) {
-			outputB = outputB + 0x80;
-		}
 
+		if(inputA < 0x05) {
+			outputB = outputB + 0x40; // 0100
+		}
 		PORTC = outputB;
 
 	}
