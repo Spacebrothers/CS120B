@@ -26,12 +26,67 @@
 echo ======================================================\n
 echo Running all tests..."\n\n
 
-test "PINA:0x00 => PORTB: 0x0F "
-setPINA 0x00
+# Example test: test sequence from A0 !A0 A0
+# Add tests below
+test "PINA:0x02 => PORTB: 0x06, C_state = C_wait"
+set C_state = C_SMStart
+setPINA 0x02
+continue 2
+expectPORTB 0x06
+checkResult
+
+test "PINA:0x03  => PORTB: 0x00, C_state = C_reset"
+set C_state = C_SMStart
+setPINA 0x03 
+continue 2
+expectPORTB 0x00
+checkResult
+
+
+test "PINA:0x03, 0x01 => PORTB: 0x01, C_state = C_wait1"
+set C_state = C_SMStart
+setPINA 0x03
+continue 2
+setPINA 0x01
+continue 2
+expectPORTB 0x01
+checkResult
+
+
+test "PINA:0x01 => PORTB: 0x08, C_state = C_wait1"
+set C_state = C_SMStart
+setPINA 0x08
 continue 2
 checkResult
-expectPORTB 0x0F
+expectPORTB 0x06
 
+
+test "PINA:0x02 0x03=> PORTB: 0x00, C_state = C_reset"
+set C_state = C_SMStart
+setPINA 0x02
+continue 2
+setPINA 0x03
+continue 2
+expectPORTB 0x00
+checkResult
+
+test "PINA:0x09 => PORTB: 0x08, C_state = C_wait1"
+set C_state = C_SMStart
+setPINA 0x09
+continue 2
+expectPORTB 0x08
+checkResult
+
+test "PINA:0x02, 0x03, 0x01 => PORTB: 0x07, C_state = C_wait1"
+set C_state = C_SMStart
+setPINA 0x02
+continue 2
+setPINA 0x00
+continue 2
+setPINA 0x01
+continue 2
+expectPORTB 0x07
+checkResult
 
 # Report on how many tests passed/tests ran
 set $passed=$tests-$failed
