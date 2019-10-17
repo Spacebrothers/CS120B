@@ -26,57 +26,34 @@
 echo ======================================================\n
 echo Running all tests..."\n\n
 
-test "PINA: 0x01, 0x01, 0x01 => PORTC: 0x03 "
-set C_state = C_SMStart
+test "PINA:0x01 => PORTC: 0x60 "
 setPINA 0x01
 continue 2
-setPINA 0x01
-continue 2
-setPINA 0x01
-continue 2
-expectPORTC 0x03
+expectPORTC 0x60
 checkResult
 
-test "PINA: 0x01, 0x03, 0x02 => PORTC: 0x00"
-set C_state = C_SMStart
-setPINA 0x01
-continue 2
+test "PINA: 0x03 => PORTC: 0x70"
 setPINA 0x03
 continue 2
-setPINA 0x02
-continue 2
-expectPORTC 0x00
+expectPORTC 0x70
 checkResult
 
-test "PINA: 0x01, 0x01, 0x01, 0x02 => PORTC: 0x02"
-set C_state = C_SMStart
-setPINA 0x01
+test "PINA: 0x05 => PORTC: 0x38"
+setPINA 0x05
 continue 2
-setPINA 0x01
-continue 2
-setPINA 0x01
-continue 2
-setPINA 0x02
-continue 2
-expectPORTC 0x02
+expectPORTC 0x38
 checkResult
 
-test "PINA: 0x02 => PORTC: 0x00"
-set C_state = C_SMStart
-setPINA 0x02
+test "PINA: 0x08 => PORTC: 0x3C"
+setPINA 0x08
 continue 2
-expectPORTC 0x00
+expectPORTC 0x3C
 checkResult
 
-test "PINA: 0x01, 0x01, 0x03 => PORTC: 0x00"
-set C_state = C_SMStart
-setPINA 0x01
+test "PINA: 0x0F => PORTC: 0x3F"
+setPINA 0x0F
 continue 2
-setPINA 0x01
-continue 2
-setPINA 0x03
-continue 2
-expectPORTC 0x00
+expectPORTC 0x3F
 checkResult
 # Report on how many tests passed/tests ran
 set $passed=$tests-$failed

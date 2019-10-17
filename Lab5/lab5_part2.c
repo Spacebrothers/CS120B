@@ -92,27 +92,33 @@ enum C_States {C_SMStart, C_initial, C_reset, C_decrement, C_increment, C_wait, 
         }
         switch(C_state) {
 		case C_SMStart:
-			//PORTB = 0x07;
+			break;
                 case C_initial:
-			PORTB = 0x07;
+			PORTC = 0x00;
 			 break;
 		case C_decrement:
-                        if(PORTB > 0) {
-                                PORTB = PORTB - 1;
+                        if(PORTC > 0) {
+                                PORTC = PORTC - 1;
                         }
+			else {
+				PORTC = PORTC;
+			}
                         break;
 		case C_wait:
                         break;
 
                 case C_increment:
-                        if(PORTB < 0x09) {
-                                PORTB = PORTB + 1;
+                        if(PORTC < 0x09) {
+                                PORTC = PORTC + 1;
                         }
+			else {
+				PORTC = PORTC;
+			}
                         break;
 		case C_wait1:
 			break;
 		case C_reset:
-                        PORTB = 0x00;
+                        PORTC = 0x00;
                         break;
 
                 default:
@@ -122,12 +128,12 @@ enum C_States {C_SMStart, C_initial, C_reset, C_decrement, C_increment, C_wait, 
 int main(void) {
 
         DDRA = 0x00; PORTA = 0xFF;
-        DDRB = 0xFF; PORTB = 0x00;
+        DDRC = 0xFF; PORTC = 0x00;
 	C_state = C_SMStart;
-  	//PORTB = 0x07;
+
         while(1) {
                 Count();
-		//PORTB = 0x07;
+
         }
 
         return 1;
