@@ -1,7 +1,7 @@
 /*	Author: apho001
  *  Partner(s) Name: Van Truong
  *	Lab Section: 023
- *	Assignment: Lab #4  Exercise #2
+ *	Assignment: Lab #5  Exercise #2
  *	Exercise Description: [optional - include for your own benefit]
  *
  *	I acknowledge all content contained herein, excluding template or example
@@ -12,13 +12,9 @@
 #ifdef _SIMULATE_
 #include "simAVRHeader.h"
 #endif
-/*
-#define buttonX (PINA & 0x01)
-#define buttonY (PINA & 0x02)
-#define buttonP (PINA & 0x04)
-#define buttonLock (PINA & 0x80)
-*/
-enum C_States {C_SMStart, C_initial, C_reset, C_decrement, C_increment, C_wait, C_wait1} C_state;void Count() {
+
+enum C_States {C_SMStart, C_initial, C_reset, C_decrement, C_increment, C_wait, C_wait1} C_state;
+void Count() {
 	switch(C_state) {
                 case C_SMStart:	
                         C_state = C_initial;
@@ -125,6 +121,7 @@ enum C_States {C_SMStart, C_initial, C_reset, C_decrement, C_increment, C_wait, 
                         break;
         }
 }
+
 int main(void) {
 
         DDRA = 0x00; PORTA = 0xFF;
@@ -133,7 +130,7 @@ int main(void) {
 
         while(1) {
                 Count();
-
+		
         }
 
         return 1;

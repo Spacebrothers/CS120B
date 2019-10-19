@@ -26,57 +26,72 @@
 echo ======================================================\n
 echo Running all tests..."\n\n
 
-# Example test: test sequence from A0 !A0 A0
-# Add tests below
-
-test "PINA: 0x04 0x80  => PORTB: 0x00, states = lock"
-set states = start
-setPINA 0x04 
+test "PINA: 0x01, 0x01, 0x01 => PORTC: 0x03 "
+set C_state = C_SMStart
+setPINA 0x01
 continue 2
-setPINA 0x80
+setPINA 0x01
 continue 2
-expectPORTB 0x00
+setPINA 0x01
+continue 2
+expectPORTC 0x03
 checkResult
 
-test "PINA: 0x04 => PORTB: 0x02, states = press"
-set states = start
-setPINA 0x04
+test "PINA: 0x01, 0x03, 0x02 => PORTC: 0x00"
+set C_state = C_SMStart
+setPINA 0x01
 continue 2
-expectPORTB 0x02
+setPINA 0x03
+continue 2
+setPINA 0x02
+continue 2
+expectPORTC 0x00
 checkResult
-expect states press
 
-test "PINA: 0x04 0x00 0x02 => PORTB: 0x01, states = unlock"
-set states = start
-setPINA 0x04
+test "PINA: 0x01, 0x01, 0x01, 0x02 => PORTC: 0x02"
+set C_state = C_SMStart
+setPINA 0x01
+continue 2
+setPINA 0x01
+continue 2
+setPINA 0x01
+continue 2
+setPINA 0x02
+continue 2
+expectPORTC 0x02
+checkResult
+
+test "PINA: 0x02 => PORTC: 0x00"
+set C_state = C_SMStart
+setPINA 0x02
+continue 2
+expectPORTC 0x00
+checkResult
+
+test "PINA: 0x01, 0x01, 0x03 => PORTC: 0x00"
+set C_state = C_SMStart
+setPINA 0x01
+continue 2
+setPINA 0x01
+continue 2
+setPINA 0x03
+continue 2
+expectPORTC 0x00
+checkResult
+
+test "PINA: 0x01, 0x00, 0x01, 0x00, 0x02 => PORTC: 0x01"
+set C_state = C_SMStart
+setPINA 0x01
+continue 2
+setPINA 0x00
+continue 2
+setPINA 0x01
 continue 2
 setPINA 0x00
 continue 2
 setPINA 0x02
 continue 2
-expectPORTB 0x01
-checkResult
-
-test "PINA: 0x04 0x00 0x80 => PORTB: 0x00, states = lock"
-set states = start
-setPINA 0x04
-continue 2
-setPINA 0x00
-continue 2
-setPINA 0x80
-continue 2
-expectPORTB 0x00
-checkResult
-
-test "PINA: 0x04 0x04 => PORTB: 0x02, states = press"
-set states = start
-setPINA 0x04
-continue 2
-setPINA 0x00
-continue 2
-expectPORTB 0x03
-checkResult
-
+expectPORTC 0x01
 
 # Report on how many tests passed/tests ran
 set $passed=$tests-$failed

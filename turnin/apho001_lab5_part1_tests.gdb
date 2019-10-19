@@ -26,63 +26,35 @@
 echo ======================================================\n
 echo Running all tests..."\n\n
 
-# Example test: test sequence from A0 !A0 A0
-# Add tests below
-test "PINA: 0x01 0x00 0x01 => PORTB: 0x01, LT_state = LT_pressed0"
-set LT_state = LT_release0
+test "PINA:0x01 => PORTC: 0x60 "
 setPINA 0x01
 continue 2
-setPINA 0x00
-continue 2
-setPINA 0x01
-continue 2
-expectPORTB 0x01
+expectPORTC 0x60
 checkResult
 
-test "PINA: 0x01 0x00 0x01 0x00=> PORTB: 0x01, LT_state = LT_release0"
-set LT_state = LT_release0
-setPINA 0x01
+test "PINA: 0x03 => PORTC: 0x70"
+setPINA 0x03
 continue 2
-setPINA 0x00
-continue 2
-setPINA 0x01
-continue 2
-setPINA 0x00
-expectPORTB 0x01
-checkResult
-expect LT_state LT_release0
-
-test "PINA: 0x00 0x01 => PORTB: 0x02, LT_state = LT_pressed1"
-set LT_state = LT_release0
-setPINA 0x00
-continue 2
-setPINA 0x01
-continue 2
-expectPORTB 0x02
-checkResult
-expect LT_state LT_pressed1
-
-test "PINA: 0x01 0x00 0x00 => PORTB: 0x02, LT_state = LT_release1"
-set LT_state = LT_release0
-setPINA 0x01
-continue 2
-setPINA 0x00
-continue 2
-setPINA 0x00
-continue 2
-expectPORTB 0x02
-checkResult
-expect LT_state LT_release1
-
-test "PINA: 0x01 0x01 => PORTB: 0x02, LT_state = LT_pressed1"
-set LT_state = LT_release0
-setPINA 0x01
-continue 2
-setPINA 0x01
-continue 2
-expectPORTB 0x02
+expectPORTC 0x70
 checkResult
 
+test "PINA: 0x05 => PORTC: 0x38"
+setPINA 0x05
+continue 2
+expectPORTC 0x38
+checkResult
+
+test "PINA: 0x08 => PORTC: 0x3C"
+setPINA 0x08
+continue 2
+expectPORTC 0x3C
+checkResult
+
+test "PINA: 0x0F => PORTC: 0x3F"
+setPINA 0x0F
+continue 2
+expectPORTC 0x3F
+checkResult
 # Report on how many tests passed/tests ran
 set $passed=$tests-$failed
 eval "shell echo Passed %d/%d tests.\n",$passed,$tests
