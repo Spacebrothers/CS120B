@@ -15,6 +15,7 @@
 volatile unsigned char TimerFlag = 0;
 unsigned long _avr_timer_M = 1;
 unsigned long _avr_timer_cntcurr = 0;
+unsigned char tmpB = 0x00;
 
 void TimerOn() {
 	TCCR1B = 0x0B;
@@ -44,17 +45,64 @@ void TimerSet(unsigned long M) {
 	_avr_timer_M = M;
 	_avr_timer_cntcurr = _avr_timer_M;
 }
+enum states {start, initial, on1, on2, on3} state;
+
+void Tick() {
+	switch(state) {
+		case start:
+			state = initial;
+			break;
+		case initial:
+			state = on1;
+			break;
+		case on1:
+			state = on2;
+			break;
+		case on2:
+			state = on3;
+			break;
+		case on3:
+			state = on1;
+			break;
+		default:
+			state = initial;
+			break;
+	}
+	switch(state) {
+		case start:
+			break;
+		case initial:
+			//PORTB = 0x00;
+			tmpB = 0x00;
+			PORTB = tmpB;
+			break;
+		case on1:
+			tmpB = 0x01;
+			PORTB = tmpB;
+			break;
+		case on2:	
+			tmpB = 0x02;
+			PORTB = tmpB;
+			break;
+		case on3:
+			tmpB = 0x04;
+			PORTB = tmpB;
+			break;
+		default:
+			break;
+	}
+	
+}
 
 int main(void) {
 
 	DDRB = 0x00; PORTB = 0xFF;
 	TimerSet(1000);
 	TimerOn();
-	unsigned char tmpB = 0x00;
-    
+    	state = initial;
+
     while (1) {
-	tmpB = ~tmpB;
-	PORTB = tmpB;
+	Tick();
 	while(!TimerFlag);
 	TimerFlag = 0;
     }
