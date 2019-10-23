@@ -23,7 +23,7 @@ void TimerOn() {
 	TIMSK1 = 0x02;
 	TCNT1 = 0;
 	_avr_timer_cntcurr = _avr_timer_M;
-	SREG != 0x80;
+	SREG |= 0x80;
 }
 void TimerOff() {
 	TCCR1B = 0x00;
@@ -36,7 +36,7 @@ void TimerISR() {
 ISR(TIMER1_COMPA_vect) {
 	_avr_timer_cntcurr--;
 	if(_avr_timer_cntcurr == 0) {
-		TIMERISR();
+		TimerISR();
 		_avr_timer_cntcurr = _avr_timer_M;
 	}
 }
@@ -47,7 +47,7 @@ void TimerSet(unsigned long M) {
 }
 enum states {start, initial, on1, on2, on3} state;
 
-void Tick() {
+void Ticking() {
 	switch(state) {
 		case start:
 			state = initial;
@@ -102,9 +102,10 @@ int main(void) {
     	state = initial;
 
     while (1) {
-	Tick();
+	Ticking();
 	while(!TimerFlag);
 	TimerFlag = 0;
     }
     return 1;
 }
+
