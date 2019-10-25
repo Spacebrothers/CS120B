@@ -1,5 +1,5 @@
 
-/*      Author: An Pho
+/*      Author: apho001
  *  Partner(s) Name: Van Truong
  *      Lab Section:
  *      Assignment: Lab #7  Exercise #1
@@ -13,7 +13,8 @@
 #include "simAVRHeader.h"
 #include <avr/interrupt.h>
 #endif
-
+#include "io.h"
+#include "io.c"
 
 volatile unsigned char TimerFlag = 0;
 unsigned long _avr_timer_M = 1;
