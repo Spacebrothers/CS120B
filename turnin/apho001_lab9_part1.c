@@ -1,5 +1,5 @@
 
-/*      Author: An Pho
+/*      Author: apho001
  *  Partner(s) Name: Van Truong
  *      Lab Section:
  *      Assignment: Lab #9  Exercise #1
