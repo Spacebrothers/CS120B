@@ -1,7 +1,7 @@
 /*	Author: apho001
  *  Partner(s) Name: Van Truong
  *   *	Lab Section: 023
- *    *	Assignment: Lab #10  Exercise #1
+ *    *	Assignment: Lab #10  Exercise #2
  *     *	Exercise Description: [optional - include for your own benefit]
  *      *
  *       *	I acknowledge all content contained herein, excluding template or example
@@ -17,9 +17,9 @@
 unsigned char B = 0x00;
 unsigned char B3 = 0x00;
 unsigned char tasksNum = 2;
-const unsigned long taskPeriodGCD = 1000;
+const unsigned long taskPeriodGCD = 100;
 const unsigned long periodbl = 1000;
-const unsigned long periodtl = 1000;
+const unsigned long periodtl = 300;
 
 //Tasks
 typedef struct task {

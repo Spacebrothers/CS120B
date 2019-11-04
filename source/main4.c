@@ -1,7 +1,7 @@
 /*	Author: apho001
  *  Partner(s) Name: Van Truong
  *   *	Lab Section: 023
- *    *	Assignment: Lab #10  Exercise #1
+ *    *	Assignment: Lab #10  Exercise #3
  *     *	Exercise Description: [optional - include for your own benefit]
  *      *
  *       *	I acknowledge all content contained herein, excluding template or example
@@ -14,12 +14,14 @@
 #include <avr/interrupt.h>
 #endif
 
+
 unsigned char B = 0x00;
 unsigned char B3 = 0x00;
-unsigned char tasksNum = 2;
-const unsigned long taskPeriodGCD = 1000;
+unsigned char tasksNum = 3;
+const unsigned long taskPeriodGCD = 2;
 const unsigned long periodbl = 1000;
-const unsigned long periodtl = 1000;
+const unsigned long periodtl = 300;
+const unsigned long periodspeaker = 2;
 
 //Tasks
 typedef struct task {
@@ -29,8 +31,8 @@ typedef struct task {
 	int (*TickFnct)(int);
 } task;
 
-//2 state machines
-task tasks[2];
+//3 state machines
+task tasks[3];
 
 //FOR TIMER
 volatile unsigned char TimerFlag = 0;
@@ -91,6 +93,9 @@ int BlinkLed(int state);
 
 enum three_state {init, on1, on2, on3};
 int ThreeLeds(int state);
+
+enum speaker_state {speaker_init, speakeron, speakeroff};
+int Speaker(int state);
 
 int BlinkLed(int state) {
 	switch(state) {
@@ -153,6 +158,46 @@ int ThreeLeds(int state) {
 	return state;
 }
 
+int Speaker(int state) {
+	unsigned char A2 = ~PINA & 0x04;
+	switch(state) {
+		case speaker_init:
+			state = speakeroff;
+			break;
+		case speakeroff:
+			if(A0) {
+				state = speakeron;
+			}
+			else {
+				state = speakeroff;
+			}
+			break;
+		case speakeron:
+			if(!A2) {
+				state = speakeroff;
+			}
+			else {
+				state = speakeron;
+			}
+			break;
+		default:
+			state = speaker_init;
+			break;
+	}
+	switch(state) {
+		case speaker_init:
+			break;
+		case speakeroff:
+			PORTB = 0x00;
+			break;
+		case speakeron:
+			PORTB = 0x10:
+			break;
+		default:
+			break;
+	}
+
+}
 void Combine() {
 	PORTB = B | B3;
 }
@@ -172,7 +217,12 @@ int main(void) {
 	tasks[i].period = periodtl;
 	tasks[i].elapsedTime = tasks[i].period;
 	tasks[i].TickFnct = &ThreeLeds;
-	TimerSet(1000);
+	++i;
+	tasks[i].state = speaker_init;
+	tasks[i].period = periodspeaker;
+	tasks[i].elapsedTime = tasks[i].period;
+	tasks[i].TickFnct = &Speaker;
+	TimerSet(taskPeriodGCD);
 	TimerOn();
 
 	while (1) {
